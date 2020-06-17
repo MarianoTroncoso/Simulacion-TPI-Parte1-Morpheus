@@ -1,16 +1,17 @@
 from pruebaFalsa import *
 import random
+import time
 
 def GeneraLugar2():
     aleatorio = 0
     respuesta=''
     aleatorio = random.random()
     if (aleatorio<=0.3):
-        respuesta=1
+        respuesta='A'
     elif (aleatorio<=0.6):
-        respuesta=2
+        respuesta='B'
     else:
-        respuesta=3
+        respuesta='C'
 
     return respuesta
 
@@ -28,20 +29,23 @@ def GeneraLugar():
     
     valorGenerado = random.roundrange(0,3)
     if valorGenerado == 0:
-        return 'A';
+        return 'A'
     elif valorGenerado == 1:
-        return 'B';
+        return 'B'
     else:
         return 'C'
 
 # Intervalo entre arribos 
 #def GeneraSiguiente():
     
-    
+def IteracionInfo():
+    print("Tiempo de procesamiento paquete entrante: "+str(procesamientoPaqueteActual))
+    print("Destino "+str(destinoPaqueteActual))
+    print("")
 def ImprimirEstadoTerminal():
-    print("A: "+str(estadoTerminalA)+" TiempoRemanente "+str(tiempoRemanenteA))
-    print("B: "+str(estadoTerminalB)+" TiempoRemanente "+str(tiempoRemanenteB))
-    print("C: "+str(estadoTerminalC)+" TiempoRemanente "+str(tiempoRemanenteC))
+    print("Estado A: "+str(estadoTerminalA)+" TiempoRemanente "+str(tiempoRemanenteA))
+    print("Estado B: "+str(estadoTerminalB)+" TiempoRemanente "+str(tiempoRemanenteB))
+    print("Estado C: "+str(estadoTerminalC)+" TiempoRemanente "+str(tiempoRemanenteC))
 
 def ImprimirMemoria():
     print("A: "+ "MemoriaRouter "+str(memoriaRouterA))
@@ -53,6 +57,9 @@ def ImprimirTiempoProcesamiento():
     print("B: "+ "Tiempo Procesamiento "+str(tiempoProcMemoriaB))
     print("C: "+ "Tiempo Procesamiento "+str(tiempoProcMemoriaC))
     
+def ImprimirEstadoGeneralSistema():
+    print("Tiempo "+str(tiempo))
+    print("Paquetes Procesados "+ str(paquete))
 
     
 intervaloLlegada = 0
@@ -85,15 +92,18 @@ paquete = 0
 while condicion:
     #Actualizar tiempos
     # Never, never do this 
-    if (intervaloLlegada) < (tiempoRemanenteA) and (intervaloLlegada) < (tiempoRemanenteB) and (intervaloLlegada) < (tiempoRemanenteC):
+    if (intervaloLlegada) <= (tiempoRemanenteA) and (intervaloLlegada) <= (tiempoRemanenteB) and (intervaloLlegada) <= (tiempoRemanenteC):
+        print("Entrada")
         paquete+=1
         tiempo = intervaloLlegada
         #Tenemos que procesar una llegada
-        procesamientoPaqueteActual= tiempo + GeneraTiempo2() 
-        destinoPaqueteActual = tiempo + GeneraLugar2() #aleatorioEncabezado
+        procesamientoPaqueteActual=tiempo + GeneraTiempo2() 
+        destinoPaqueteActual =GeneraLugar2() #aleatorioEncabezado
         intervaloLlegada = tiempo + GeneraSiguiente2()
-
-        if procesamientoPaqueteActual == 'A': #terminalA
+        
+        IteracionInfo()
+        if destinoPaqueteActual == 'A': #terminalA
+            print("Entre")
             if estadoTerminalA == False:
                 estadoTerminalA = True
                 tiempoRemanenteA = procesamientoPaqueteActual
@@ -106,7 +116,7 @@ while condicion:
                     memoriaRouterA = True
                     tiempoProcMemoriaA = procesamientoPaqueteActual  
 
-        if procesamientoPaqueteActual == 'B': #terminalB
+        if destinoPaqueteActual == 'B': #terminalB
             if estadoTerminalB == False:
                 estadoTerminalB = True
                 tiempoRemanenteB = procesamientoPaqueteActual
@@ -121,7 +131,7 @@ while condicion:
                     tiempoProcMemoriaB = procesamientoPaqueteActual
                     
 
-        if procesamientoPaqueteActual == 'C': #terminalC
+        if destinoPaqueteActual == 'C': #terminalC
             if estadoTerminalC == False:
                 estadoTerminalC = True
                 tiempoRemanenteC = procesamientoPaqueteActual
@@ -137,6 +147,7 @@ while condicion:
         porcentajePerdidos = paquetesPerdidos*100/paquete
         #perdida de un paquechi
     else:
+        print("Salida")
         #Se procesa una salida        
         #Primero, liberamos las terminales y  Liberamos la memoria del router
         tiempo = min(tiempoRemanenteA,tiempoRemanenteB,tiempoRemanenteC)
@@ -160,9 +171,11 @@ while condicion:
                 estadoTerminalC = True
                 tiempoRemanenteC = tiempoProcMemoriaB
                 memoriaRouterC = False
+    ImprimirEstadoGeneralSistema()
     ImprimirEstadoTerminal()
     ImprimirMemoria()
     ImprimirTiempoProcesamiento()
+    time.sleep(1)
     if paquete == 20:
         condicion = False
 
