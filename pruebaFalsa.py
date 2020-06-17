@@ -18,7 +18,7 @@ def GeneraTiempo2():
         respuesta = 6
     return respuesta
 
-def GeneraIntervaloLlegada2():
+def GeneraSiguiente2():
     aleatorio=0
     respuesta = 0
     aleatorio = random.random()
