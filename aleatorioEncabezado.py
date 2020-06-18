@@ -41,7 +41,7 @@ def GeneraLugar():
 def IteracionInfo():
     print("Tiempo de procesamiento paquete entrante: "+str(procesamientoPaqueteActual))
     print("Destino "+str(destinoPaqueteActual))
-    print("")
+    print("Siguiente paquete vendra en " + str(intervaloLlegada))
 def ImprimirEstadoTerminal():
     print("Estado A: "+str(estadoTerminalA)+" TiempoRemanente "+str(tiempoRemanenteA))
     print("Estado B: "+str(estadoTerminalB)+" TiempoRemanente "+str(tiempoRemanenteB))
@@ -68,9 +68,9 @@ estadoTerminalA = False
 estadoTerminalB = False
 estadoTerminalC = False
 
-tiempoRemanenteA = 0
-tiempoRemanenteB = 0
-tiempoRemanenteC = 0
+tiempoRemanenteA = 99999999999
+tiempoRemanenteB = 99999999999
+tiempoRemanenteC = 99999999999
 
 memoriaRouterA = False
 memoriaRouterB = False
@@ -155,18 +155,23 @@ while condicion:
        
         if tiempo == tiempoRemanenteA and estadoTerminalA:
             estadoTerminalA = False
+            tiempoRemanenteA = 99999999
             if memoriaRouterA:
                 estadoTerminalA = True
                 tiempoRemanenteA = tiempoProcMemoriaA
                 memoriaRouterA = False
         if tiempo == tiempoRemanenteB and estadoTerminalB:
             estadoTerminalB = False
+            #Aca vuelve a infinito el valor
+            tiempoRemanenteB = 99999999 
+
             if memoriaRouterB:
                 estadoTerminalB = True
                 tiempoRemanenteB = tiempoProcMemoriaB
                 memoriaRouterB = False
         if tiempo == tiempoRemanenteC and estadoTerminalC:
             estadoTerminalC = False
+            tiempoRemanenteC = 99999999
             if memoriaRouterC:
                 estadoTerminalC = True
                 tiempoRemanenteC = tiempoProcMemoriaB
