@@ -1,6 +1,6 @@
 import random
 import csv
-"""
+
 #Genera mediciones del tiempo que toma hacer el alfajor
 with open('hacerAlfajores.csv', mode = 'w') as hacerAlfajores:
     alfajores_writer = csv.writer(hacerAlfajores, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -24,8 +24,8 @@ with open('aprobacionControlCalidad.csv',mode = 'w') as controlCalidad:
             val2=0
         print(val2)
         control_writer.writerow([val])     
-"""
-"""
+
+
 with open('tiempoBañado.csv',mode = 'w') as tiempoBañado:
      bañado_writer = csv.writer(tiempoBañado,delimiter =',', quotechar='"',quoting=csv.QUOTE_MINIMAL)
      for i in range(0,1000):
@@ -33,7 +33,7 @@ with open('tiempoBañado.csv',mode = 'w') as tiempoBañado:
         print(round(val,2))
         bañado_writer.writerow([val])
 
-"""
+
 with open('intervaloLlegada.csv',mode ='w') as intervaloLlegada:
     intervaloLlegada_writer = csv.writer(intervaloLlegada,delimiter =',', quotechar='"',quoting=csv.QUOTE_MINIMAL)
     for i in range(0,1000):
