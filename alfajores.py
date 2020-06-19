@@ -9,24 +9,27 @@ evaluacion = 0    #aleatorio para ver si pasa la prueba
 ganancia = 0
 admitidos= 0
 perdida = 0
-armadoLibre = False
-banioLibre = False
+armadoLibre = True
+banioLibre = True
 intervaloLlegada = 0
 colaArmado = 0
 armadoEspera = False
 
 #saltamos siempre al evento mas proximo
-while(tiempo<=3600):
+while(tiempo<=1000):
+    print('armado:' + str(tiempoArmado))
+    print('baniado:' + str(tiempoBanio))
     print('-------------tiempo: ' + str(tiempo))
     # lo proximo que viene es una llegada
     if (tiempo + intervaloLlegada) < (tiempo + tiempoArmado) and (tiempo+intervaloLlegada <(tiempo+tiempoBanio)):
-        print('LLEGO UNA TAPA CALIENTITA')
+        print('LLEGO UNA TAPA CALIENTITA ')
         #Llega una tapa primero
         tiempo += intervaloLlegada
         intervaloLlegada=random.normalvariate(69.42, 10.17)
         alfajoresxdia+=1
         
-        if(armadoLibre==True):
+        if(armadoLibre):
+            print('entro a un armado libre 1')
         # ARMADO LIBRE 
             tiempoArmado = random.normalvariate(64.56, 10.025)
             armadoLibre= False
@@ -34,31 +37,39 @@ while(tiempo<=3600):
             # media y varianza 
             
         else:
+            print('sumo a cola armado')
             colaArmado +=1
 
 
     elif ((tiempo + tiempoArmado) < (tiempo + tiempoBanio)):
     #PROCESO DE ARMADO  
+        print( 'soy un control de bugs (.)(.)()(.)(.)()()()()()() ')
         tiempo += tiempoArmado
-        if(banioLibre == True):
+        if(banioLibre):
+            print('soy un banio libre')
             # BANIADO LIBRE 
             armadoLibre = True
             banioLibre = False
             tiempobanio = random.normalvariate(64.76, 5)
             if(colaArmado > 0 ):
+                print('hay cosas en cola y el armado saca 1')
                 armadoLibre = False
                 colaArmado -= 1
                 tiempoArmado = random.normalvariate(64.56, 10.025)
             
             else:
+                print('la cola vacia tiempo armado infinito')
                 tiempoArmado = sys.maxsize
                 
         else:
+            print('banio ocupado el armado espera con el alfajor')
             armadoEspera = True
     else:
+        print('PROCESO BANIO HA INICIADO')
     #procesar un baniado
         tiempo += tiempoBanio
-        if(armadoEspera):
+        if(armadoEspera or armadoLibre):
+            
             armadoEspera = False
             banioLibre = False
             tiempobanio = random.normalvariate(64.76, 5)
@@ -79,4 +90,4 @@ while(tiempo<=3600):
     print("Perdidos: " + str(perdida))
     print("Admitidos: " + str(admitidos))
     print("Procesados: " + str(alfajoresxdia))
-    print(colaArmado)
+    print("Cola del armados: "+ str(colaArmado))
