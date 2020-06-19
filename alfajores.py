@@ -13,11 +13,14 @@ armadoLibre = False
 banioLibre = False
 intervaloLlegada = 0
 colaArmado = 0
+armadoEspera = False
 
 #saltamos siempre al evento mas proximo
 while(tiempo<=3600):
+    print('-------------tiempo: ' + str(tiempo))
     # lo proximo que viene es una llegada
     if (tiempo + intervaloLlegada) < (tiempo + tiempoArmado) and (tiempo+intervaloLlegada <(tiempo+tiempoBanio)):
+        print('LLEGO UNA TAPA CALIENTITA')
         #Llega una tapa primero
         tiempo += intervaloLlegada
         intervaloLlegada=random.normalvariate(69.42, 10.17)
@@ -25,11 +28,11 @@ while(tiempo<=3600):
         
         if(armadoLibre==True):
         # ARMADO LIBRE 
-            
+            tiempoArmado = random.normalvariate(64.56, 10.025)
             armadoLibre= False
             
             # media y varianza 
-            tiempoArmado = random.normalvariate(64.56, 10.025)
+            
         else:
             colaArmado +=1
 
@@ -38,7 +41,7 @@ while(tiempo<=3600):
     #PROCESO DE ARMADO  
         tiempo += tiempoArmado
         if(banioLibre == True):
-            # BAÑADO LIBRE 
+            # BANIADO LIBRE 
             armadoLibre = True
             banioLibre = False
             tiempobanio = random.normalvariate(64.76, 5)
@@ -49,13 +52,20 @@ while(tiempo<=3600):
             
             else:
                 tiempoArmado = sys.maxsize
-    
+                
+        else:
+            armadoEspera = True
     else:
     #procesar un baniado
         tiempo += tiempoBanio
-        banioLibre = False
-        tiempobanio = random.normalvariate(64.76, 5)
+        if(armadoEspera):
+            armadoEspera = False
+            banioLibre = False
+            tiempobanio = random.normalvariate(64.76, 5)
+        else:
+            banioLibre = True
         
+        #CONTROL DE CALIDAD EL COMUNMENTE CONOCIDO -QA-
         evaluacion = random.randint(0,101)
         if(evaluacion<=90):
             admitidos +=1
@@ -63,55 +73,10 @@ while(tiempo<=3600):
             perdida +=1 
 
 
-    if(armadoLibre==False):
-        # ARMADO LIBRE 
-        alfajoresxdia+=1
-        armadoLibre= True
-        
-        # media y varianza 
-        tiempoArmado = random.normalvariate(64.56, 10.025)
-        # saltamos hasta que se termina de armar el alfajor
-        tiempo += tiempoArmado
-        
-        if(banioLibre == False):
-            # BAÑADO LIBRE 
-            armadoLibre = False
-            banioLibre=True
-            tiempobanio = random.normalvariate(64.76, 5)
-
-            evaluacion =random.randint(0,101)
-            if(evaluacion<=90):
-                admitidos +=1
-            else:
-                perdida +=1 
     
-    #ARMADO Libre            
-    else:
-        colaArmado +=1
-        tiempo = tiempo + intervaloLlegada
-        if(tiempo>tiempoArmado):
-            alfajoresxdia+=1
-            armadoLibre= True
-        
-            tiempoArmado = random.randint(40,71)
-            tiempo += tiempoArmado
-            colaArmado-=1
-        
-            if(banioLibre == False):
-                
-                armadoLibre = False
-                banioLibre=True
-                tiempobanio = random.randint(80,121)
-                tiempo += tiempoBanio
-                banioLibre = False
-                evaluacion =random.randint(0,101)
-                if(evaluacion<=90):
-                    admitidos +=1
-                else:
-                    perdida +=1 
 
 
-print("Perdidos: " + str(perdida))
-print("Admitidos: " + str(admitidos))
-print("Procesados: " + str(alfajoresxdia))
-print(colaArmado)
+    print("Perdidos: " + str(perdida))
+    print("Admitidos: " + str(admitidos))
+    print("Procesados: " + str(alfajoresxdia))
+    print(colaArmado)
