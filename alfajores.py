@@ -1,6 +1,6 @@
 import random
 
-segundo=0
+tiempo=0
 alfajoresxdia = 0
 dias = 0
 tiempoArmado= 0         #entre 40 y 70
@@ -14,23 +14,29 @@ banioOcupado = False
 intervaloLlegada = 0
 colaArmado = 0
 
-while(segundo<=10400):
+#saltamos siempre al evento mas proximo
+while(tiempo<=3600):
+    # lo proximo que viene es una llegada?
+    if (tiempo + intervaloLlegada) < (tiempo + tiempoArmado) and (tiempo+intervaloLlegada <(tiempo+tiempoBanio)):
+        #Llega una tapa primero
     intervaloLlegada=random.randint(50,90)
     
     if(armadoOcupado==False):
-        
+        # ARMADO LIBRE 
         alfajoresxdia+=1
         armadoOcupado= True
         
-        tiempoArmado = random.randint(40,71)
-        segundo += tiempoArmado
+        # media y varianza 
+        tiempoArmado = random.normalvariate(64.56,10.025)
+        # saltamos hasta que se termina de armar el alfajor
+        tiempo += tiempoArmado
         
         if(banioOcupado == False):
-            
+            # BAÑADO LIBRE 
             armadoOcupado = False
             banioOcupado=True
             tiempobanio = random.randint(80,121)
-            segundo += tiempoBanio
+            tiempo += tiempoBanio
             banioOcupado = False
             evaluacion =random.randint(0,101)
             if(evaluacion<=90):
@@ -41,13 +47,13 @@ while(segundo<=10400):
     #ARMADO OCUPADO            
     else:
         colaArmado +=1
-        segundo = segundo + intervaloLlegada
-        if(segundo>tiempoArmado):
+        tiempo = tiempo + intervaloLlegada
+        if(tiempo>tiempoArmado):
             alfajoresxdia+=1
             armadoOcupado= True
         
             tiempoArmado = random.randint(40,71)
-            segundo += tiempoArmado
+            tiempo += tiempoArmado
             colaArmado-=1
         
             if(banioOcupado == False):
@@ -55,7 +61,7 @@ while(segundo<=10400):
                 armadoOcupado = False
                 banioOcupado=True
                 tiempobanio = random.randint(80,121)
-                segundo += tiempoBanio
+                tiempo += tiempoBanio
                 banioOcupado = False
                 evaluacion =random.randint(0,101)
                 if(evaluacion<=90):
