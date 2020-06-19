@@ -17,12 +17,14 @@ armadoEspera = False
 
 #saltamos siempre al evento mas proximo
 while(tiempo<=1000):
+    print ('=================nueva iteracion ===================')
     print('armado:' + str(tiempoArmado))
     print('baniado:' + str(tiempoBanio))
-    print('-------------tiempo: ' + str(tiempo))
+    print('intervalo llegada prox:' + str(intervaloLlegada))    
+    print('-------------tiempo inicial------: ' + str(tiempo))
     # lo proximo que viene es una llegada
     if (tiempo + intervaloLlegada) < (tiempo + tiempoArmado) and (tiempo+intervaloLlegada <(tiempo+tiempoBanio)):
-        print('LLEGO UNA TAPA CALIENTITA ')
+        print('===============LLEGADA DE UNA TAPA CALIENTITA =============')
         #Llega una tapa primero
         tiempo += intervaloLlegada
         intervaloLlegada=random.normalvariate(69.42, 10.17)
@@ -85,9 +87,10 @@ while(tiempo<=1000):
 
 
     
-
+    
+    print('-------------tiempo final------: ' + str(tiempo))
 
     print("Perdidos: " + str(perdida))
     print("Admitidos: " + str(admitidos))
-    print("Procesados: " + str(alfajoresxdia))
+    print("alfajores potenciales para armar: " + str(alfajoresxdia))
     print("Cola del armados: "+ str(colaArmado))
